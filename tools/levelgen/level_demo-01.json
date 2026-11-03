@@ -1,0 +1,190 @@
+{
+  "id": "demo-01",
+  "grid": {
+    "rows": 8,
+    "cols": 8,
+    "pattern": [
+      "OOOOOOOO",
+      "WGGKKKKW",
+      "WPYYYYPW",
+      "WPBRRBPW",
+      "WPBRRBPW",
+      "GYRRRRYG",
+      "GYYBBBBG",
+      "GGKKKKPP"
+    ]
+  },
+  "slots": 3,
+  "window": 3,
+  "preview": 3,
+  "baskets": [
+    {
+      "color": "G",
+      "capacity": 8
+    },
+    {
+      "color": "B",
+      "capacity": 8
+    },
+    {
+      "color": "R",
+      "capacity": 8
+    },
+    {
+      "color": "P",
+      "capacity": 8
+    },
+    {
+      "color": "K",
+      "capacity": 8
+    },
+    {
+      "color": "O",
+      "capacity": 8
+    },
+    {
+      "color": "W",
+      "capacity": 8
+    },
+    {
+      "color": "Y",
+      "capacity": 8
+    }
+  ],
+  "basketsCompact": "G8 B8 R8 P8 K8 O8 W8 Y8",
+  "trace": [
+    {
+      "remaining": 64,
+      "collectible": 28
+    },
+    {
+      "pick": 0,
+      "color": "G",
+      "capacity": 8,
+      "remaining": 58,
+      "collectible": 26,
+      "slots": [
+        {
+          "color": "G",
+          "filled": 6,
+          "capacity": 8
+        },
+        null,
+        null
+      ]
+    },
+    {
+      "pick": 1,
+      "color": "B",
+      "capacity": 8,
+      "remaining": 54,
+      "collectible": 29,
+      "slots": [
+        {
+          "color": "G",
+          "filled": 6,
+          "capacity": 8
+        },
+        {
+          "color": "B",
+          "filled": 4,
+          "capacity": 8
+        },
+        null
+      ]
+    },
+    {
+      "pick": 2,
+      "color": "R",
+      "capacity": 8,
+      "remaining": 42,
+      "collectible": 34,
+      "slots": [
+        {
+          "color": "G",
+          "filled": 6,
+          "capacity": 8
+        },
+        null,
+        null
+      ]
+    },
+    {
+      "pick": 3,
+      "color": "P",
+      "capacity": 8,
+      "remaining": 32,
+      "collectible": 30,
+      "slots": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "pick": 4,
+      "color": "K",
+      "capacity": 8,
+      "remaining": 24,
+      "collectible": 24,
+      "slots": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "pick": 5,
+      "color": "O",
+      "capacity": 8,
+      "remaining": 16,
+      "collectible": 16,
+      "slots": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "pick": 6,
+      "color": "W",
+      "capacity": 8,
+      "remaining": 8,
+      "collectible": 8,
+      "slots": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "pick": 7,
+      "color": "Y",
+      "capacity": 8,
+      "remaining": 0,
+      "collectible": 0,
+      "slots": [
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "meta": {
+    "blocks": 64,
+    "colors": {
+      "O": 8,
+      "W": 8,
+      "G": 8,
+      "K": 8,
+      "P": 8,
+      "Y": 8,
+      "B": 8,
+      "R": 8
+    },
+    "peakSlotUsage": 3,
+    "solutionSteps": 8,
+    "randomFailRate": 0.575,
+    "greedyFailRate": 1.0
+  }
+}

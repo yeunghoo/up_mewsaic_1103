@@ -1,0 +1,21 @@
+Privacy Policy
+Mewsaic Nook · Effective November 3, 2026
+
+THE GAME
+Mewsaic Nook works offline. We do not collect or transmit personal data from the game. There are no accounts, advertisements, analytics SDKs, tracking technologies, in-app purchases, or social features.
+
+DATA ON YOUR DEVICE
+The game saves level progress, collected artwork, current attempts, daily challenge deadlines and results, tutorial status, and sound and haptic preferences on your device. These records support gameplay and are not sent to us. Your operating system may include local app data in device backups according to your device settings. We do not operate a cloud-sync service.
+
+YOUR CHOICES
+You can change sound and haptic preferences in Settings. Deleting the app removes its local data; offloading the app may retain it. A device backup may restore earlier data. Manage backups through your device settings. We cannot recover progress that you have removed.
+
+SUPPORT EMAIL
+If you choose to contact us, we receive your email address and the information you include. We use this only to respond and resolve your request, and retain it only as long as needed for support or legal obligations. Our email provider processes the correspondence to deliver this service. Do not send sensitive personal information. You can request deletion of support correspondence by email, subject to applicable retention obligations.
+
+CHILDREN
+The game does not request personal information from players of any age. If you believe a child has sent personal information through support, contact us to request its removal.
+
+CHANGES AND CONTACT
+We will update this policy if our practices change and revise its effective date. For privacy questions or support, contact the Mewsaic Nook developer:
+aclanerdenajshhd@icloud.com

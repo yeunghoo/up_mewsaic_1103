@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23501" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="launch-controller">
+    <dependencies><plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23501"/><capability name="Safe area layout guides" minToolsVersion="9.0"/><capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/></dependencies>
+    <scenes><scene sceneID="launch-scene"><objects>
+        <viewController id="launch-controller" sceneMemberID="viewController">
+            <view key="view" contentMode="scaleToFill" id="launch-root">
+                <rect key="frame" x="0" y="0" width="393" height="852"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="AtelierCat" translatesAutoresizingMaskIntoConstraints="NO" id="launch-icon"><rect key="frame" x="106.5" y="290" width="180" height="180"/></imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Mewsaic Nook" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="launch-title"><rect key="frame" x="24" y="490" width="345" height="36"/><fontDescription key="fontDescription" type="system" weight="heavy" pointSize="29"/><color key="textColor" red="0.10" green="0.25" blue="0.26" alpha="1" colorSpace="custom" customColorSpace="sRGB"/></label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Load color. Make it pop." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="launch-caption"><rect key="frame" x="24" y="538" width="345" height="22"/><fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/><color key="textColor" red="0.22" green="0.43" blue="0.42" alpha="1" colorSpace="custom" customColorSpace="sRGB"/></label>
+                </subviews>
+                <viewLayoutGuide key="safeArea" id="launch-safe"/>
+                <color key="backgroundColor" red="0.91" green="0.97" blue="0.94" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstItem="launch-icon" firstAttribute="centerX" secondItem="launch-root" secondAttribute="centerX" id="icon-center-x"/>
+                    <constraint firstItem="launch-icon" firstAttribute="centerY" secondItem="launch-safe" secondAttribute="centerY" constant="-44" id="icon-center-y"/>
+                    <constraint firstItem="launch-icon" firstAttribute="width" constant="180" id="icon-width"/><constraint firstItem="launch-icon" firstAttribute="height" constant="180" id="icon-height"/>
+                    <constraint firstItem="launch-title" firstAttribute="top" secondItem="launch-icon" secondAttribute="bottom" constant="20" id="title-top"/>
+                    <constraint firstItem="launch-title" firstAttribute="leading" secondItem="launch-safe" secondAttribute="leading" constant="24" id="title-left"/><constraint firstItem="launch-safe" firstAttribute="trailing" secondItem="launch-title" secondAttribute="trailing" constant="24" id="title-right"/>
+                    <constraint firstItem="launch-caption" firstAttribute="top" secondItem="launch-title" secondAttribute="bottom" constant="10" id="caption-top"/>
+                    <constraint firstItem="launch-caption" firstAttribute="leading" secondItem="launch-safe" secondAttribute="leading" constant="24" id="caption-left"/><constraint firstItem="launch-safe" firstAttribute="trailing" secondItem="launch-caption" secondAttribute="trailing" constant="24" id="caption-right"/>
+                </constraints>
+            </view>
+        </viewController><placeholder placeholderIdentifier="IBFirstResponder" id="launch-responder" sceneMemberID="firstResponder"/>
+    </objects></scene></scenes>
+    <resources><image name="AtelierCat" width="1024" height="1024"/></resources>
+</document>

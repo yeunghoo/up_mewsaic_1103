@@ -1,0 +1,21 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# 关卡生成器与内核测试的产物
+tools/levelgen/__pycache__/
+tools/kerneltest/kerneltest
+
+# Signing material and CI output (never commit credentials)
+*.p12
+*.p8
+*.mobileprovision
+*.keychain-db
+*.ipa
+*.xcarchive/
+.env
+.env.*
+.DS_Store
+artifacts/
