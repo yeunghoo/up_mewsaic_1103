@@ -1,0 +1,16 @@
+PODS:
+  - InMobiSDK (11.5.0)
+
+DEPENDENCIES:
+  - InMobiSDK (= 11.5.0)
+
+SPEC REPOS:
+  trunk:
+    - InMobiSDK
+
+SPEC CHECKSUMS:
+  InMobiSDK: ee7350ea87b96ace338bf4443a0fcb8f9b7b0af3
+
+PODFILE CHECKSUM: 8502b6caf7fc03ae56a98cfaa3413cde409d8974
+
+COCOAPODS: 1.16.2

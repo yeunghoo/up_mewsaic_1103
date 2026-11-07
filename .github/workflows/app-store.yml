@@ -27,7 +27,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
       BUNDLE_ID: com.mewsaic.erden.nook.app
-      MARKETING_VERSION: 1.0.0
+      MARKETING_VERSION: 1.1.0
       BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
     steps:
       - name: Check out source
@@ -44,9 +44,15 @@ jobs:
           sdk=$(xcrun --sdk iphoneos --show-sdk-version)
           [[ "${sdk%%.*}" -ge 26 ]] || { echo 'App Store uploads require iOS SDK 26 or newer.'; exit 1; }
 
+      - name: Install locked CocoaPods dependencies
+        run: |
+          gem install cocoapods -v 1.16.2 --no-document
+          pod _1.16.2_ install --deployment
+
       - name: Validate bundled puzzles
         run: |
           set -euo pipefail
+          python3 tools/check_inmobi.py
           python3 tools/levelgen/check_frames.py
           bash tools/kerneltest/campaign.sh
           bash tools/kerneltest/daily.sh
@@ -68,7 +74,7 @@ jobs:
       - name: Retain IPA and symbols
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: MewsaicNook-1.0.0-${{ env.BUILD_NUMBER }}
+          name: MewsaicNook-1.1.0-${{ env.BUILD_NUMBER }}
           path: |
             artifacts/export/*.ipa
             artifacts/MewsaicNook.xcarchive/dSYMs/

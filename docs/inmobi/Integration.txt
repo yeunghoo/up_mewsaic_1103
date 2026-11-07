@@ -1,0 +1,91 @@
+Mewsaic Nook — InMobi integration
+Updated: 2026-11-07
+
+构建
+通过 CocoaPods 接入 InMobiSDK 11.5.0，Podfile.lock 已锁定。
+使用 pod install 后打开 loop_miao.xcworkspace，不再只打开 xcodeproj。
+iOS 最低 15.0；应用版本 1.0.0；bundle ID com.mewsaic.erden.nook.app。
+GitHub Actions 使用工作区构建，未在本次任务中上传新的 IPA。
+11.5.0 的 Swift 导出头含无效文档参数注释，应用 target 仅关闭 documentation-comments 告警；其他编译告警仍按错误验证。
+
+广告配置
+MCAdConfiguration.m
+Account: ed31e775c4884238b53b017cb015bb7f
+Interstitial: 10000871089
+Banner: 10000871090
+Rewarded: 10000871091
+MCDailyRewardSeconds = 120
+
+启动与展示
+应用前台激活后请求 ATT；系统已决定则不重复弹窗。系统限制/拒绝仍能游戏。
+ATT 完成后初始化 SDK，并独立预加载三种广告。预加载是异步网络请求，不保证立即可用。
+横幅默认隐藏且不添加到视图；插页和激励视频不会在加载回调中自行展示。
+失败以 30/60/120/240/300 秒退避重试；加载超时清理；后台暂停调度。
+所有公开接口在主线程调用。拒绝未就绪展示后不会排队突然弹广告。
+
+每日挑战
+每次有效点击 Restart 都调用插页 API，无确认弹窗；关闭或不可用后重开挑战。
+每次有效点击倒计时都打开英文视频确认弹窗，不依赖广告是否就绪。
+Watch Video 先关闭确认弹窗和横幅，再调用激励接口。不可用时也关闭弹窗。
+成功/未完成两条业务回调位于 MCDailyAdCoordinator.m 的 didEarnReward: 和 didFinishWithoutReward:。
+SDK 奖励完成后在广告关闭时增加 120 秒；提前关闭、失败和未加载不增加奖励时间。
+使用会话 token，避免重复回调或旧关卡回调重复加时间。
+弹窗和横幅是同一个覆盖层中的同级容器，一起渐入/移除；横幅未加载时不显示占位广告；加载稍晚时，仅在该弹窗仍有效期间补显示，关闭后取消。
+结果用顶部英文短提示自动消失，无确认按钮。
+弹窗和广告期间暂停倒计时与炮台。正常后台仍按原规则耗时。
+强制结束进程不会持久化暂停状态；已获得的奖励时间正常保存。
+同一弹窗/广告正在显示时阻止重复叠加；关闭后可再次点击，无人为次数上限。
+
+接口
+MCAdManager.sharedManager
+- showInterstitialFromViewController:completion:
+  返回 NO 表示本次未展示，调用方应直接执行兜底；YES 后通过 completion 收尾。
+- presentRewardedFromViewController:onReward:withoutReward:
+  两条回调恰有一条。未就绪也回调 withoutReward；提前关闭的 error 为 nil。
+- showBannerInContainer: / hideBanner
+  调用方保留至少 320x50 pt 的可见安全区容器。
+- status
+  返回就绪/加载状态和最近错误，不含广告标识符。
+
+中文日志
+MCAdLog.h/.m 使用 NSLog，统一前缀 [广告]。
+包含 ATT、SDK 初始化、广告位请求、加载成功/失败、展示、关闭、奖励结果。
+日志不记录 IDFA、TCF 同意字符串或广告请求负载。
+在 Xcode 控制台搜索“[广告]”。
+
+日志实测
+2026-11-07 的 iOS 26.2 模拟器：SDK 初始化成功，三个用户提供的广告位均实际发出请求。
+广告网络请求收到 HTTP 204，无广告内容；SDK 报 com.inmobi.ads.requeststatus code=6。
+因此本次未验证真实素材展示/播放完成。不能把“初始化成功”视为服务器保证填充。
+这是模拟器采样，不代表所有真机或后台配置的结果。
+
+隐私与地区
+当前按用户安排暂不接 CMP、不面向欧洲/英国等相关市场。
+ATT 不是 GDPR 同意；代码不会把 ATT 允许伪装为 GDPR 同意，也不硬编码 gdpr=0。
+保留 setAdRequestsPaused: 与 updateConsentDictionary:，供未来地区同意流程使用。
+原生隐私页和本地网站源文件已更新广告披露，未发布网站；App Store 隐私标签须同步实际配置。
+当前原生隐私页没有外部跳转。
+
+SKAdNetwork
+111 个 ID 来自官方完整 JSON 清单，保留快照 skadnetworkids-2026-11-07.json。
+python3 tools/check_inmobi.py 可校验清单、ATT 文案和三个广告位。
+SDK 自带 PrivacyInfo.xcprivacy 已在最终应用 Frameworks/InMobiSDK.framework 内确认存在。
+
+官方参考
+https://support.inmobi.com/monetize/sdk-documentation/ios-guidelines/overview-ios-guidelines
+https://support.inmobi.com/monetize/sdk-documentation/download-sdk
+https://support.inmobi.com/monetize/sdk-documentation/ios-guidelines/banner-ads
+https://support.inmobi.com/monetize/sdk-documentation/ios-guidelines/interstitial-ads
+https://support.inmobi.com/monetize/sdk-documentation/ios-guidelines/rewarded-video-ads
+https://www.inmobi.com/skadnetworkids.json
+
+验证结果
+12 项广告与奖励单元测试通过；2 项 UI 测试通过（ATT 拒绝/不重复、奖励弹窗多次开启及安全区布局）。
+最终 Release iphoneos 编译与静态分析通过，编译警告按错误处理。
+真实素材播放完成仍需服务器返回广告后联调，本次奖励路径通过测试替身验证。
+
+复核日志说明
+Runtime-Diagnostics 仅保留真实 SDK/UI 测试应用日志。
+Unit-Test-Diagnostics 为测试宿主模拟回调，不能当作真实填充证据。
+新的中文 NSLog 自动给单元测试宿主加上明确标记。
+Network-Evidence 保存了本次广告接口 HTTP 204 的原始证据摘录。

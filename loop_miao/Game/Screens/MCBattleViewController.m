@@ -4,6 +4,8 @@
 #import "MCVolleyTimeline.h"
 #import "MCShotEffects.h"
 #import "MCSoundPlayer.h"
+#import "../Ads/MCAdManager.h"
+#import "../Ads/MCDailyAdCoordinator.h"
 
 @interface MCBattleViewController ()
 @property(nonatomic,strong) MCArtworkView *art;
@@ -21,6 +23,7 @@
 @property(nonatomic) BOOL timeoutShown;
 @property(nonatomic) NSTimeInterval lastSnapshot;
 @property(nonatomic,strong) UIButton *undoButton;
+@property(nonatomic,strong) MCDailyAdCoordinator *dailyAds;
 @end
 
 @implementation MCBattleViewController
@@ -29,10 +32,21 @@
     self.timeline=[[MCVolleyTimeline alloc]initWithBoard:self.board];
     if(self.session.dailyMode&&self.session.dailyVisualState)[self.timeline restoreSnapshot:self.session.dailyVisualState];
     [self renderScreen];
+    if(self.session.dailyMode){
+        self.dailyAds=[[MCDailyAdCoordinator alloc]initWithPresenter:self session:self.session ads:MCAdManager.sharedManager];
+        __weak typeof(self) weakSelf=self;
+        self.dailyAds.suspensionChanged=^(BOOL suspended){
+            MCBattleViewController *self=weakSelf;if(!self)return;
+            self.busy=suspended;
+            if(suspended){[self pauseVolley];[[MCSoundPlayer shared]stop];}
+            else {[self checkDeadline];[self resumeVolley];if(self.timeline.running)[self startDisplayLink];}
+        };
+        self.dailyAds.restart=^{[weakSelf restartCurrent];};
+    }
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(pauseVolley) name:UIApplicationWillResignActiveNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(resumeVolley) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
-- (void)prepareForNavigation {[self persistVisualState];[self.deadlineTimer invalidate];self.deadlineTimer=nil;[self stopVolley];}
+- (void)prepareForNavigation {[self.dailyAds invalidate];[self persistVisualState];[self.deadlineTimer invalidate];self.deadlineTimer=nil;[self stopVolley];}
 - (void)dealloc {[NSNotificationCenter.defaultCenter removeObserver:self];}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -40,6 +54,7 @@
         [self checkDeadline];if(self.timeoutShown)return;
         if(!self.deadlineTimer)self.deadlineTimer=[NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(checkDeadline) userInfo:nil repeats:YES];
     }
+    if(self.dailyAds.busy)return;
     if(self.timeline.running)[self startDisplayLink];
     if(self.board.isWin&&!self.timeline.running){[self finish];return;}
     if(self.board.isDeadlock&&!self.timeline.running){[self blocked];return;}
@@ -52,7 +67,7 @@
     UILabel *level=[UILabel new];level.text=self.session.dailyMode?@"DAILY CHALLENGE":[NSString stringWithFormat:@"LEVEL %ld",(long)self.levelIndex+1];level.textAlignment=NSTextAlignmentCenter;level.font=[UIFont systemFontOfSize:18 weight:UIFontWeightHeavy];level.textColor=Ink();[nav addArrangedSubview:level];
     UIButton *help=[self smallButton:@"questionmark.circle.fill" label:@"How to play" action:@selector(help)];[help.widthAnchor constraintEqualToConstant:44].active=YES;[nav addArrangedSubview:help];
     UILabel *name=[self label:self.session.currentLevelInfo[@"title"] size:24];name.textAlignment=NSTextAlignmentCenter;
-    if(self.session.dailyMode){self.countdown=[self label:@"" size:20];self.countdown.textAlignment=NSTextAlignmentCenter;self.countdown.font=[UIFont monospacedDigitSystemFontOfSize:20 weight:UIFontWeightHeavy];self.countdown.accessibilityIdentifier=@"daily-countdown";}
+    if(self.session.dailyMode){self.countdown=[self label:@"" size:20];self.countdown.textAlignment=NSTextAlignmentCenter;self.countdown.font=[UIFont monospacedDigitSystemFontOfSize:20 weight:UIFontWeightHeavy];self.countdown.accessibilityIdentifier=@"daily-countdown";self.countdown.userInteractionEnabled=YES;self.countdown.accessibilityTraits=UIAccessibilityTraitButton;self.countdown.accessibilityHint=@"Watch a video for 120 extra seconds";[self.countdown.heightAnchor constraintGreaterThanOrEqualToConstant:44].active=YES;[self.countdown addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(extraTime)]];}
     self.status=[self label:@"" size:13];self.status.numberOfLines=1;
     [self.status.heightAnchor constraintEqualToConstant:ceil(self.status.font.lineHeight)].active=YES;
     self.art=[self artwork:self.board.level board:nil height:300];self.art.displayedColors=self.timeline.colors;self.art.accessibilityIdentifier=@"puzzle-artwork";
@@ -101,6 +116,7 @@
     }
 }
 - (void)pick:(UIButton *)sender {
+    if(self.dailyAds.busy)return;
     if(self.session.dailyMode&&[self checkExpired])return;
     NSInteger slot=[self availableSlot];if(slot==NSNotFound)return;
     MCMove *move=[self.board playBasketAtQueueIndex:sender.tag slotIndex:slot];if(!move)return;
@@ -112,9 +128,10 @@
     if(!self.timeline.running&&self.board.isDeadlock)[self blocked];
 }
 - (void)startDisplayLink {
-    if(!self.displayLink&&self.timeline.running&&!self.timeoutShown){self.lastFrame=0;self.displayLink=[CADisplayLink displayLinkWithTarget:self selector:@selector(frame:)];self.displayLink.preferredFramesPerSecond=60;[self.displayLink addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];}
+    if(!self.displayLink&&self.timeline.running&&!self.timeoutShown&&!self.dailyAds.busy){self.lastFrame=0;self.displayLink=[CADisplayLink displayLinkWithTarget:self selector:@selector(frame:)];self.displayLink.preferredFramesPerSecond=60;[self.displayLink addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];}
 }
 - (void)frame:(CADisplayLink *)link {
+    if(self.dailyAds.busy)return;
     if(self.session.dailyMode&&[self checkExpired])return;
     NSTimeInterval delta=self.lastFrame?MIN(.05,link.timestamp-self.lastFrame):1.0/60;self.lastFrame=link.timestamp;
     [self.timeline advance:delta];[self.effects renderTimeline:self.timeline];
@@ -127,7 +144,7 @@
     if(!self.timeline.running){[self.displayLink invalidate];self.displayLink=nil;[self refreshControls];if(self.board.isWin)[self finish];else if(self.board.isDeadlock)[self blocked];}
 }
 - (void)pauseVolley {[self persistVisualState];self.displayLink.paused=YES;self.lastFrame=0;}
-- (void)resumeVolley {self.lastFrame=0;if(self.session.dailyMode&&[self checkExpired])return;self.displayLink.paused=NO;}
+- (void)resumeVolley {self.lastFrame=0;if(self.dailyAds.busy)return;if(self.session.dailyMode&&[self checkExpired])return;self.displayLink.paused=NO;}
 - (void)stopVolley {[self.displayLink invalidate];self.displayLink=nil;[self.effects clear];[[MCSoundPlayer shared]stop];}
 
 - (void)persistVisualState {
@@ -167,7 +184,11 @@
 }
 
 - (void)restart {
+    if(self.session.dailyMode){[self.dailyAds requestRestart];return;}
     UIAlertController *a=[UIAlertController alertControllerWithTitle:@"Start this puzzle again?" message:@"Your collected keepsakes stay safe." preferredStyle:UIAlertControllerStyleAlert];[a addAction:[UIAlertAction actionWithTitle:@"Keep playing" style:UIAlertActionStyleCancel handler:nil]];[a addAction:[UIAlertAction actionWithTitle:@"Restart" style:UIAlertActionStyleDefault handler:^(UIAlertAction *x){[self restartCurrent];}]];[self presentViewController:a animated:YES completion:nil];
+}
+- (void)extraTime {
+    [self.dailyAds requestExtraTime];
 }
 
 - (void)hint {

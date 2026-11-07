@@ -15,6 +15,11 @@
 @property(nonatomic,copy,readonly) NSDictionary *currentLevelInfo;
 @property(nonatomic,copy) NSDictionary *dailyVisualState;
 @property(nonatomic,readonly) NSTimeInterval dailyDeadline;
+@property(nonatomic,readonly) BOOL dailyAdBreakActive;
+/// Temporary pause while the ad offer/video covers gameplay. The token makes
+/// dismissal/reward idempotent and prevents a callback rewarding a new attempt.
+- (NSString *)beginDailyAdBreakAtDate:(NSDate *)date;
+- (BOOL)endDailyAdBreak:(NSString *)token rewardSeconds:(NSTimeInterval)seconds atDate:(NSDate *)date;
 /// Resume a live attempt; expired/failed or test-only attempts start with a fresh clock.
 - (void)startDailyAtDate:(NSDate *)date reset:(BOOL)reset;
 - (void)restoreDailyMoves:(NSArray *)moves;

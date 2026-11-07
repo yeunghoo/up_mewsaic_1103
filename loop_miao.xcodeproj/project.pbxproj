@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		849B39ADC9E3C78132543ADF /* Pods_loop_miao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3503C79D0D10D4169851E0B /* Pods_loop_miao.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C22E76F3306237240042C747 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,9 +28,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0148B2B55062654D8E1BF453 /* Pods-loop_miao.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-loop_miao.debug.xcconfig"; path = "Target Support Files/Pods-loop_miao/Pods-loop_miao.debug.xcconfig"; sourceTree = "<group>"; };
+		6349919A92DE65602CA48781 /* Pods-loop_miao.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-loop_miao.release.xcconfig"; path = "Target Support Files/Pods-loop_miao/Pods-loop_miao.release.xcconfig"; sourceTree = "<group>"; };
 		C22E76D7306237230042C747 /* loop_miao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = loop_miao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C22E76F2306237240042C747 /* loop_miaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = loop_miaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C22E76FC306237240042C747 /* loop_miaoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = loop_miaoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3503C79D0D10D4169851E0B /* Pods_loop_miao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_loop_miao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -50,11 +57,15 @@
 		};
 		C22E76F5306237240042C747 /* loop_miaoTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = loop_miaoTests;
 			sourceTree = "<group>";
 		};
 		C22E76FF306237240042C747 /* loop_miaoUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = loop_miaoUITests;
 			sourceTree = "<group>";
 		};
@@ -65,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849B39ADC9E3C78132543ADF /* Pods_loop_miao.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +97,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B0D9723D6D861A60FD9AC820 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0148B2B55062654D8E1BF453 /* Pods-loop_miao.debug.xcconfig */,
+				6349919A92DE65602CA48781 /* Pods-loop_miao.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C22E76CE306237230042C747 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +113,8 @@
 				C22E76F5306237240042C747 /* loop_miaoTests */,
 				C22E76FF306237240042C747 /* loop_miaoUITests */,
 				C22E76D8306237230042C747 /* Products */,
+				B0D9723D6D861A60FD9AC820 /* Pods */,
+				D1779458342ABFF9DF7A4E56 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +128,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D1779458342ABFF9DF7A4E56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C3503C79D0D10D4169851E0B /* Pods_loop_miao.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -112,9 +143,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C22E7705306237240042C747 /* Build configuration list for PBXNativeTarget "loop_miao" */;
 			buildPhases = (
+				262BB08131954D5DFC5253AA /* [CP] Check Pods Manifest.lock */,
 				C22E76D3306237230042C747 /* Sources */,
 				C22E76D4306237230042C747 /* Frameworks */,
 				C22E76D5306237230042C747 /* Resources */,
+				A7CF0BDB37C10CD1849D46F6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -124,8 +157,6 @@
 				C22E76D9306237230042C747 /* loop_miao */,
 			);
 			name = loop_miao;
-			packageProductDependencies = (
-			);
 			productName = loop_miao;
 			productReference = C22E76D7306237230042C747 /* loop_miao.app */;
 			productType = "com.apple.product-type.application";
@@ -147,8 +178,6 @@
 				C22E76F5306237240042C747 /* loop_miaoTests */,
 			);
 			name = loop_miaoTests;
-			packageProductDependencies = (
-			);
 			productName = loop_miaoTests;
 			productReference = C22E76F2306237240042C747 /* loop_miaoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -170,8 +199,6 @@
 				C22E76FF306237240042C747 /* loop_miaoUITests */,
 			);
 			name = loop_miaoUITests;
-			packageProductDependencies = (
-			);
 			productName = loop_miaoUITests;
 			productReference = C22E76FC306237240042C747 /* loop_miaoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -243,6 +270,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		262BB08131954D5DFC5253AA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-loop_miao-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A7CF0BDB37C10CD1849D46F6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-loop_miao/Pods-loop_miao-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-loop_miao/Pods-loop_miao-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-loop_miao/Pods-loop_miao-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C22E76D3306237230042C747 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -283,19 +352,24 @@
 /* Begin XCBuildConfiguration section */
 		C22E7706306237240042C747 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0148B2B55062654D8E1BF453 /* Pods-loop_miao.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4ZSDTPGLPN;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = loop_miao/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Mewsaic Nook";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "With your permission, your device identifier will be used to show more relevant ads and measure advertising performance.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -307,7 +381,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mewsaic.erden.nook.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -320,19 +398,24 @@
 		};
 		C22E7707306237240042C747 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6349919A92DE65602CA48781 /* Pods-loop_miao.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4ZSDTPGLPN;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = loop_miao/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Mewsaic Nook";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "With your permission, your device identifier will be used to show more relevant ads and measure advertising performance.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -344,7 +427,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mewsaic.erden.nook.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -5,6 +5,8 @@
     NSString *_dailyDay;
     BOOL _dailyFinished;
     BOOL _dailyTestTimer;
+    NSString *_dailyAdBreakToken;
+    NSTimeInterval _dailyAdBreakRemaining;
 }
 + (BOOL)replayMove:(id)record onBoard:(MCBoard *)board {
     if([record isKindOfClass:NSNumber.class])return [board playBasketAtQueueIndex:[record integerValue]]!=nil;
@@ -22,6 +24,7 @@
     }return self;}
 - (NSInteger)unlocked { NSInteger i=0;while(i<(NSInteger)self.catalog.count && [self.completed containsObject:self.catalog[i][@"id"]])i++;return MIN(i,(NSInteger)self.catalog.count-1); }
 - (void)start:(NSInteger)index moves:(NSArray *)moves {
+    _dailyAdBreakToken=nil;
     _dailyMode=NO;_dailyFailed=NO;self.dailyVisualState=nil;
     self.levelIndex=index;self.board=[[MCBoard alloc]initWithLevel:[MCLevel levelWithDictionary:self.catalog[index]]];self.moves=[NSMutableArray new];
     for(id record in moves){if(![MCGameSession replayMove:record onBoard:self.board])break;[self.moves addObject:record];}
@@ -39,6 +42,7 @@
 }
 - (NSDictionary *)currentLevelInfo {return self.dailyMode?self.dailyStore.levels[_dailyIndex]:self.catalog[self.levelIndex];}
 - (void)startDailyAtDate:(NSDate *)date reset:(BOOL)reset {
+    _dailyAdBreakToken=nil;
     _dailyMode=YES;_dailyFinished=NO;_dailyDay=[MCDailyChallengeStore dayKeyForDate:date];_dailyIndex=[self.dailyStore indexForDate:date];
     NSUserDefaults *defaults=NSUserDefaults.standardUserDefaults;
     NSTimeInterval limit=[self.currentLevelInfo[@"timeLimit"] doubleValue];_dailyTestTimer=NO;
@@ -66,7 +70,21 @@
     for(id record in moves){if(![self.class replayMove:record onBoard:self.board])break;[self.moves addObject:record];}
     self.dailyVisualState=nil;[self save];
 }
-- (NSTimeInterval)dailyRemainingAtDate:(NSDate *)date {return self.dailyFailed?0:MAX(0,self.dailyDeadline-date.timeIntervalSince1970);}
+- (NSTimeInterval)dailyRemainingAtDate:(NSDate *)date {return self.dailyFailed?0:(_dailyAdBreakToken?_dailyAdBreakRemaining:MAX(0,self.dailyDeadline-date.timeIntervalSince1970));}
+- (BOOL)dailyAdBreakActive {return _dailyAdBreakToken!=nil;}
+- (NSString *)beginDailyAdBreakAtDate:(NSDate *)date {
+    if(!self.dailyMode||_dailyFinished||_dailyAdBreakToken||[self dailyRemainingAtDate:date]<=0)return nil;
+    _dailyAdBreakRemaining=[self dailyRemainingAtDate:date];
+    _dailyAdBreakToken=NSUUID.UUID.UUIDString;
+    return _dailyAdBreakToken;
+}
+- (BOOL)endDailyAdBreak:(NSString *)token rewardSeconds:(NSTimeInterval)seconds atDate:(NSDate *)date {
+    if(!token||![_dailyAdBreakToken isEqual:token]||!self.dailyMode||self.dailyFailed||_dailyFinished)return NO;
+    if(!isfinite(seconds)||seconds<0)return NO;
+    _dailyDeadline=date.timeIntervalSince1970+_dailyAdBreakRemaining+seconds;
+    _dailyAdBreakToken=nil;_dailyAdBreakRemaining=0;[self save];
+    return YES;
+}
 - (void)failDaily {_dailyFailed=YES;[self save];}
 - (void)save {
     if(self.dailyMode){

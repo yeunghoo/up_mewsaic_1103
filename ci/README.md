@@ -3,7 +3,7 @@
 The `Build and upload Mewsaic Nook` workflow is manually dispatched on GitHub Actions. It builds the shared `MewsaicNook` scheme using Xcode 26.2 on `macos-15`.
 
 - Bundle identifier: `com.mewsaic.erden.nook.app`
-- Marketing version: `1.0.0`
+- Marketing version: `1.1.0`
 - Deployment target: iOS `15.0`
 - Build number: workflow run number by default; optionally supply an unused integer (1–9999).
 

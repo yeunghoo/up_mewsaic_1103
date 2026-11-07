@@ -19,3 +19,6 @@ tools/kerneltest/kerneltest
 .env.*
 .DS_Store
 artifacts/
+
+# CocoaPods: commit Podfile.lock and the workspace, regenerate dependencies.
+Pods/

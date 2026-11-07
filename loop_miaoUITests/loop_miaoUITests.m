@@ -11,7 +11,7 @@
     XCUIElement *policy=app.textViews[@"privacy-policy"];
     XCTAssertTrue([policy waitForExistenceWithTimeout:3]);
     XCTAssertTrue([policy.value containsString:@"aclanerdenajshhd@icloud.com"]);
-    XCTAssertTrue([policy.value containsString:@"We do not collect or transmit personal data"]);
+    XCTAssertTrue([policy.value containsString:@"InMobi advertising SDK"]);
     [app.buttons[@"Done"] tap];XCTAssertTrue(app.buttons[@"privacy"].hittable);
 }
 - (void)capture:(XCUIApplication *)app name:(NSString *)name {
@@ -71,9 +71,9 @@
     self.continueAfterFailure=NO;
     XCUIApplication *app=[XCUIApplication new];app.launchArguments=@[@"-atelier.taught",@"YES",@"-MCStoreScene",@"home"];[app launch];
     [self assertInside:app.buttons[@"daily"] app:app];[self capture:app name:@"Daily-New-Home"];
-    [app.buttons[@"daily"] tap];XCTAssertTrue([app.staticTexts[@"daily-countdown"] waitForExistenceWithTimeout:5]);XCTAssertFalse(app.buttons[@"start-daily"].exists);[self assertInside:app.buttons[@"Restart"] app:app];[self capture:app name:@"Daily-Direct-Entry"];
+    [app.buttons[@"daily"] tap];XCTAssertTrue([app.buttons[@"daily-countdown"] waitForExistenceWithTimeout:5]);XCTAssertFalse(app.buttons[@"start-daily"].exists);[self assertInside:app.buttons[@"Restart"] app:app];[self capture:app name:@"Daily-Direct-Entry"];
     [app terminate];app.launchArguments=@[@"-atelier.taught",@"YES",@"-MCPreviewDaily",@"YES",@"-MCUITesting",@"YES",@"-MCDailySeconds",@"120"];[app launch];
-    XCTAssertTrue([app.staticTexts[@"daily-countdown"] waitForExistenceWithTimeout:5]);
+    XCTAssertTrue([app.buttons[@"daily-countdown"] waitForExistenceWithTimeout:5]);
     [self assertInside:app.buttons[@"Restart"] app:app];[self assertInside:app.buttons[@"basket-0"] app:app];
     CGFloat width=app.buttons[@"basket-0"].frame.size.width;
     [app.buttons[@"basket-0"] tap];XCTAssertEqualWithAccuracy(width,app.buttons[@"basket-1"].frame.size.width,.5);
@@ -81,7 +81,7 @@
     [app terminate];app.launchArguments=@[@"-MCPreviewDaily",@"YES",@"-MCUITesting",@"YES",@"-MCDailySeconds",@"12"];[app launch];
     [app.buttons[@"How to play"] tap];
     XCTAssertTrue([app.alerts[@"Time's up!"] waitForExistenceWithTimeout:18]);
-    [app.buttons[@"Try again"] tap];XCTAssertFalse(app.alerts[@"Time's up!"].exists);XCTAssertTrue(app.staticTexts[@"daily-countdown"].exists);
+    [app.buttons[@"Try again"] tap];XCTAssertFalse(app.alerts[@"Time's up!"].exists);XCTAssertTrue(app.buttons[@"daily-countdown"].exists);
     [XCUIDevice.sharedDevice pressButton:XCUIDeviceButtonHome];[NSThread sleepForTimeInterval:13];[app activate];
     XCTAssertTrue([app.alerts[@"Time's up!"] waitForExistenceWithTimeout:5]);
     [app.buttons[@"Back to home"] tap];XCTAssertTrue(app.buttons[@"play"].hittable);
@@ -101,15 +101,15 @@
 - (void)testDailyDirectEntryAndExpiredRetry {
     self.continueAfterFailure=NO;XCUIApplication *app=[XCUIApplication new];
     app.launchArguments=@[@"-atelier.taught",@"YES",@"-MCUITesting",@"YES",@"-MCSeedExpiredDaily",@"YES"];[app launch];
-    [app.buttons[@"daily"] tap];XCTAssertTrue([app.staticTexts[@"daily-countdown"] waitForExistenceWithTimeout:5]);
+    [app.buttons[@"daily"] tap];XCTAssertTrue([app.buttons[@"daily-countdown"] waitForExistenceWithTimeout:5]);
     XCTAssertFalse(app.alerts[@"Time's up!"].exists);XCTAssertFalse(app.buttons[@"start-daily"].exists);
     [app.buttons[@"Home"] tap];[app.buttons[@"daily"] tap];XCTAssertFalse(app.alerts[@"Time's up!"].exists);
     // A failed attempt left by a short-clock test must not leak into a normal launch.
     [app terminate];app.launchArguments=@[@"-MCPreviewDaily",@"YES",@"-MCUITesting",@"YES",@"-MCDailySeconds",@"8"];[app launch];
     XCTAssertTrue([app.alerts[@"Time's up!"] waitForExistenceWithTimeout:12]);[app.buttons[@"Back to home"] tap];
-    [app.buttons[@"daily"] tap];XCTAssertFalse(app.alerts[@"Time's up!"].exists);XCTAssertTrue(app.staticTexts[@"daily-countdown"].exists);
+    [app.buttons[@"daily"] tap];XCTAssertFalse(app.alerts[@"Time's up!"].exists);XCTAssertTrue(app.buttons[@"daily-countdown"].exists);
     [app terminate];app.launchArguments=@[@"-MCStoreScene",@"home"];[app launch];[app.buttons[@"daily"] tap];
-    XCTAssertFalse(app.alerts[@"Time's up!"].exists);NSString *clock=app.staticTexts[@"daily-countdown"].label;
+    XCTAssertFalse(app.alerts[@"Time's up!"].exists);NSString *clock=app.buttons[@"daily-countdown"].label;
     XCTAssertTrue([clock containsString:@"01:"]||[clock containsString:@"02:"],@"Test clock leaked: %@",clock);
     [self capture:app name:@"Daily-Fresh-After-Test"];
 }

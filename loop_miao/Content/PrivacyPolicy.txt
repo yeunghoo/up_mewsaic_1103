@@ -1,8 +1,11 @@
 Privacy Policy
-Mewsaic Nook · Effective November 3, 2026
+Mewsaic Nook · Effective November 7, 2026
 
 THE GAME
-Mewsaic Nook works offline. We do not collect or transmit personal data from the game. There are no accounts, advertisements, analytics SDKs, tracking technologies, in-app purchases, or social features.
+Core puzzles work offline and progress stays on your device. No account or in-app purchase is required. The app includes the InMobi advertising SDK. Ad requests can run during startup, even before an ad is displayed. Advertising requires a network connection.
+
+ADVERTISING AND PRIVACY
+InMobi and its advertising partners may process IP address, approximate location inferred from IP, device and app information, identifiers, and ad interaction data to deliver, measure, and secure advertising. Your advertising identifier is available only if you allow tracking through the iOS permission prompt. Denying tracking does not prevent gameplay. You can change your choice in iOS Settings > Privacy & Security > Tracking. ATT permission does not replace regional privacy consent. We do not provide your puzzle progress, contact details, or precise GPS location to the advertising SDK.
 
 DATA ON YOUR DEVICE
 The game saves level progress, collected artwork, current attempts, daily challenge deadlines and results, tutorial status, and sound and haptic preferences on your device. These records support gameplay and are not sent to us. Your operating system may include local app data in device backups according to your device settings. We do not operate a cloud-sync service.
@@ -14,7 +17,7 @@ SUPPORT EMAIL
 If you choose to contact us, we receive your email address and the information you include. We use this only to respond and resolve your request, and retain it only as long as needed for support or legal obligations. Our email provider processes the correspondence to deliver this service. Do not send sensitive personal information. You can request deletion of support correspondence by email, subject to applicable retention obligations.
 
 CHILDREN
-The game does not request personal information from players of any age. If you believe a child has sent personal information through support, contact us to request its removal.
+The game does not ask players to enter personal information. Advertising may process technical data as described above. If you believe a child has provided personal information, contact us so we can investigate and assist with removal.
 
 CHANGES AND CONTACT
 We will update this policy if our practices change and revise its effective date. For privacy questions or support, contact the Mewsaic Nook developer:

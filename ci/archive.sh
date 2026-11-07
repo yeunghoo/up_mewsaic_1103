@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 mkdir -p artifacts
-xcodebuild -project loop_miao.xcodeproj -scheme MewsaicNook \
+xcodebuild -workspace loop_miao.xcworkspace -scheme MewsaicNook \
   -configuration Release -destination 'generic/platform=iOS' \
   -archivePath "$PWD/artifacts/MewsaicNook.xcarchive" \
   -derivedDataPath "$RUNNER_TEMP/mewsaic-derived" \
@@ -34,6 +34,9 @@ with zipfile.ZipFile(p) as z:
  for key,expected in [('CFBundleIdentifier',os.environ['BUNDLE_ID']),('CFBundleShortVersionString',os.environ['MARKETING_VERSION']),('CFBundleVersion',os.environ['BUILD_NUMBER']),('MinimumOSVersion','15.0')]:
   assert info[key]==expected,(key,info.get(key),expected)
  assert info.get('ITSAppUsesNonExemptEncryption') is False
+ assert info.get('NSUserTrackingUsageDescription')
+ assert len(info.get('SKAdNetworkItems', [])) >= 111
+ assert prefix+'Frameworks/InMobiSDK.framework/PrivacyInfo.xcprivacy' in z.namelist()
  for name in ['campaign.json','daily.json','PrivacyInfo.xcprivacy','PrivacyPolicy.txt','embedded.mobileprovision']:
   assert prefix+name in z.namelist(),name
  assert not any(n.endswith(('.p12','.p8')) for n in z.namelist())

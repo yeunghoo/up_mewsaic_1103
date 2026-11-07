@@ -8,7 +8,7 @@
     [self action:[NSUserDefaults.standardUserDefaults boolForKey:@"atelier.haptics"]?@"Haptic feedback: On":@"Haptic feedback: Off" selector:@selector(toggleHaptics)];
     [self action:[NSUserDefaults.standardUserDefaults boolForKey:@"atelier.sound"]?@"Sound effects: On":@"Sound effects: Off" selector:@selector(toggleSound)];
     [self label:@"Sound follows your device’s silent mode. Animations follow Reduce Motion." size:14];
-    [self label:@"Your progress belongs here" size:20];[self label:@"Progress is saved on this device. No account, ads, analytics, or purchases. Deleting the app removes its local progress." size:15];
+    [self label:@"Your progress belongs here" size:20];[self label:@"Progress is saved on this device. No account or in-app purchases. See Privacy Policy for advertising information. Deleting the app removes its local progress." size:15];
     NSString *version=[NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     [self label:[NSString stringWithFormat:@"Mewsaic Nook · Version %@\nOriginal procedural artwork and a cozy place to think.",version] size:14];
     UIButton *privacy=[UIButton buttonWithType:UIButtonTypeSystem];
