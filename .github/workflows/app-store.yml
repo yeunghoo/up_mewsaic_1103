@@ -27,7 +27,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
       BUNDLE_ID: com.mewsaic.erden.nook.app
-      MARKETING_VERSION: 1.1.0
+      MARKETING_VERSION: 1.1.1
       BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
     steps:
       - name: Check out source
@@ -53,6 +53,8 @@ jobs:
         run: |
           set -euo pipefail
           python3 tools/check_inmobi.py
+          python3 tools/check_privacy.py
+          python3 tools/test_release_validation.py
           python3 tools/levelgen/check_frames.py
           bash tools/kerneltest/campaign.sh
           bash tools/kerneltest/daily.sh
@@ -74,7 +76,7 @@ jobs:
       - name: Retain IPA and symbols
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: MewsaicNook-1.1.0-${{ env.BUILD_NUMBER }}
+          name: MewsaicNook-1.1.1-${{ env.BUILD_NUMBER }}
           path: |
             artifacts/export/*.ipa
             artifacts/MewsaicNook.xcarchive/dSYMs/
@@ -90,6 +92,15 @@ jobs:
           ASC_APP_ID: ${{ secrets.ASC_APP_ID }}
           ASC_PROVIDER_ID: ${{ secrets.ASC_PROVIDER_ID }}
         run: bash ci/upload.sh
+
+      - name: Retain Apple processing receipt
+        if: ${{ inputs.upload }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: MewsaicNook-1.1.1-${{ env.BUILD_NUMBER }}-Apple-receipt
+          path: artifacts/apple-upload-receipt.json
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Remove temporary signing material
         if: ${{ always() }}

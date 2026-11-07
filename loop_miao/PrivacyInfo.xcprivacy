@@ -75,6 +75,8 @@
 	<key>NSPrivacyTracking</key>
 	<true/>
 	<key>NSPrivacyTrackingDomains</key>
-	<array/>
+	<array>
+		<string>ads.inmobi.com</string>
+	</array>
 </dict>
 </plist>

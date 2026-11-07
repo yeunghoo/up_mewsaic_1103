@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
+python3 tools/check_privacy.py
 mkdir -p artifacts
 xcodebuild -workspace loop_miao.xcworkspace -scheme MewsaicNook \
   -configuration Release -destination 'generic/platform=iOS' \
@@ -47,4 +48,5 @@ with open(os.environ['GITHUB_ENV'],'a') as f:f.write('IPA_PATH='+str(p.resolve()
 print(json.dumps(result,indent=2))
 PY
 codesign --verify --deep --strict "artifacts/MewsaicNook.xcarchive/Products/Applications/loop_miao.app"
+python3 tools/check_privacy.py artifacts/export/*.ipa
 printf '### Signed IPA ready\n\nVersion: %s · Build: %s · Minimum iOS: 15.0\n' "$MARKETING_VERSION" "$BUILD_NUMBER" >> "$GITHUB_STEP_SUMMARY"

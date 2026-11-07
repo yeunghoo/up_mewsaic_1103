@@ -11,5 +11,6 @@ xcrun altool --upload-package "$IPA_PATH" --platform ios \
   --bundle-id "$BUNDLE_ID" --bundle-version "$BUILD_NUMBER" \
   --bundle-short-version-string "$MARKETING_VERSION" \
   --username "$APPLE_ID" --password '@env:APPLE_APP_SPECIFIC_PASSWORD' \
-  --wait --output-format json
+  --wait --output-format json 2>&1 | tee "$RUNNER_TEMP/mewsaic-apple-upload.log"
+python3 tools/check_apple_upload.py "$RUNNER_TEMP/mewsaic-apple-upload.log"
 printf '\n### App Store Connect\n\nIPA upload completed; Apple processing response is in the upload step log. This workflow does not submit the app for review or publish it.\n' >> "$GITHUB_STEP_SUMMARY"
